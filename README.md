@@ -1,2 +1,0 @@
-# fixRacket
-Modded Racket client
