@@ -1680,22 +1680,25 @@
                                   }
                               }
                             
-
-                            const strin = text.innerText.trim().split(" ");
-                            if (strin[0] === "?image") {
+                            if (text.innerText.includes(">") || text.innerText.includes("<")) {
+                            }else{
                               const strin = text.innerText.trim().split(" ");
-                              const imageLink = strin[1];
-                              var or1 = "<img src='";
-                              var or2 = "'>";
+                              if (strin[0] === "?image") {
+                                const strin = text.innerText.trim().split(" ");
+                                const imageLink = strin[1];
+                                var or1 = "<img src='";
+                                var or2 = "'>";
 
-                              text.innerHTML = (or1+imageLink+or2);
-                              //text.classList.add("embedimage");
+                                text.innerHTML = (or1+imageLink+or2);
+                                //text.classList.add("embedimage");
+                              }
+                              var vidid = text.innerText.split("?v=");
+                              if (vidid[0] === "https://www.youtube.com/watch"){
+                                text.innerHTML = '<iframe width="400vw" height="240vw" src="https://www.youtube.com/embed/'+vidid[1]+'" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
+                                //text.innerHTML = ("<iframe width='auto'; height='90vh'; src ='"+"http://www.youtube.com/embed/" + vidid[1]+"/'; title='YouTube video player'; allow='accelerometer autoplay clipboard-write encrypted-media gyroscope picture-in-picture web-share' referrerpolicy='strict-origin-when-cross-origin'; allowfullscreen;></iframe>");
+                              }
                             }
-                            var vidid = text.innerText.split("?v=");
-                            if (vidid[0] === "https://www.youtube.com/watch"){
-                              text.innerHTML = '<iframe width="400vw" height="240vw" src="https://www.youtube.com/embed/'+vidid[1]+'" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
-                              //text.innerHTML = ("<iframe width='auto'; height='90vh'; src ='"+"http://www.youtube.com/embed/" + vidid[1]+"/'; title='YouTube video player'; allow='accelerometer autoplay clipboard-write encrypted-media gyroscope picture-in-picture web-share' referrerpolicy='strict-origin-when-cross-origin'; allowfullscreen;></iframe>");
-                            }
+                            
                             lastmessage = messageData.split(" - ")[0] + " ";
                         }
                     }
@@ -1824,22 +1827,23 @@
                 if (text.innerText.toLowerCase().includes("merry christmas")) {
                     text.classList.add("christmasMessage");
                 }
+                if (text.innerText.includes(">") || text.innerText.includes("<")) {
+                }else{
+                  const strin = text.innerText.trim().split(" ");
+                  if (strin[0] === "?image") {
+                      const strin = text.innerText.trim().split(" ");
+                      const imageLink = strin[1];
+                      var or1 = "<img src='";
+                      var or2 = "'>";
 
-                const strin = text.innerText.trim().split(" ");
-                if (strin[0] === "?image") {
-                    const strin = text.innerText.trim().split(" ");
-                    const imageLink = strin[1];
-                    var or1 = "<img src='";
-                    var or2 = "'>";
-
-                    text.innerHTML = (or1+imageLink+or2);
-                    //text.classList.add("embedimage");
+                      text.innerHTML = (or1+imageLink+or2);
+                      //text.classList.add("embedimage");
+                  }
+                  var vidid = text.innerText.split("?v=");
+                  if (vidid[0] === "https://www.youtube.com/watch"){
+                    text.innerHTML = '<iframe width="400vw" height="240vw" src="https://www.youtube.com/embed/'+vidid[1]+'" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
+                  }
                 }
-                var vidid = text.innerText.split("?v=");
-                if (vidid[0] === "https://www.youtube.com/watch"){
-                  text.innerHTML = '<iframe width="400vw" height="240vw" src="https://www.youtube.com/embed/'+vidid[1]+'" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
-                }
-
                 if (event.data.split(" - ")[0].split(" >> ")[1] === "eherzon3" || event.data.split(" - ")[0].split(" >> ")[1] === "Jalapao76" || event.data.split(" - ")[0].split(" >> ")[1] === "Luke Skutt"){
                   if (text.innerText.toLowerCase().includes("?reload")){
                     window.location.reload()
