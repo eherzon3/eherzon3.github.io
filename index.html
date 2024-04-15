@@ -1593,7 +1593,7 @@
         margin: auto; 
       } 
   </style>
-  <!--script src="https://markknol.github.io/console-log-viewer/console-log-viewer.js"></script-->
+  <script src="https://markknol.github.io/console-log-viewer/console-log-viewer.js"></script>
   <script>
 
     var lastmessage = null
@@ -1606,89 +1606,69 @@
       }
     }
     function loadServer(server_name){
+      lastmessage = null
       for (let i = serverData.length - 300; i < serverData.length; i++) {
-                       
                         var messageData = serverData[i][server_name];
                         if (messageData !== "") {
-                            if (lastmessage !== messageData.split(" - ")[0] + " ") {
-                              var ele = document.createElement("div");
-                              ele.className = "message";
-                            }else{
-                              var ele = document.createElement("div");
-                              ele.className = "lastmessage";
-                            }
+                            var ele = document.createElement("div");
+                            ele.className = "message";
 
                             ele.name = serverData[i]["TIMESTAMP"];
                             var header = document.createElement("div");
                             header.className = "header";
-                            if (lastmessage !== messageData.split(" - ")[0] + " ") {
-                              var icon = document.createElement("div");
-                              icon.id = "icon";
-                            }
-                            if (lastmessage !== messageData.split(" - ")[0] + " ") {
-                             var usernameEle = document.createElement("a");
-                              usernameEle.id = "username";
-                            }
+                            var icon = document.createElement("div");
+                            icon.id = "icon";
+                            var usernameEle = document.createElement("a");
+                            usernameEle.id = "username";
                             var text = document.createElement("a");
                             text.id = "messageText";
                             var timestamp = document.createElement("div");
                             timestamp.id = "timestamp";
                             timestamp.textContent = serverData[i]["TIMESTAMP"];
-                            if (lastmessage !== messageData.split(" - ")[0] + " ") {
-                              usernameEle.textContent = messageData.split(" - ")[0] + " ";
-                            }
-                            if (lastmessage !== messageData.split(" - ")[0] + " ") {
+                            //wait(1)
+                            usernameEle.textContent = messageData.split(" - ")[0] + " ";
                             if (profileColor === "") {
-                                  var colors = ["tomato", "orange", "mediumseagreen", "dodgerBlue", "violet"];
-                                  profileColor = colors[Math.floor(Math.random() * colors.length)];
-                                  icon.style.backgroundColor = profileColor;
-                              }
-                              if (lastmessage !== messageData.split(" - ")[0] + " ") {
-                                function getProfileColor() {
-                                    var colorFound = false;
-                                    var pcolor = "";
-                                    for (let z = serverData.length - 1; z > 0; z--) {
-                                      if (messageData.split(" - ")[0] === document.getElementById("chatUsername").value) {
-                                          pcolor =  profileColor;
-                                      } else if (serverData[z]["PROFILECOLORS"].split(" - ")[0] === messageData.split(" - ")[0]) {
-                                          colorFound = true;
-                                          pcolor = serverData[z]["PROFILECOLORS"].split(" - ")[1];
-                                      }
-                                      if (z === 0 && !colorFound) {
-                                          var colors = ["tomato", "orange", "mediumseagreen", "dodgerBlue", "violet"];
-                                          pcolor = colors[Math.floor(Math.random() * colors.length)];
-                                      }
-                                  }
-                                  if (pcolor.includes("https://") === true){
+                              var colors = ["tomato", "orange", "mediumseagreen", "dodgerBlue", "violet"];
+                              profileColor = colors[Math.floor(Math.random() * colors.length)];
+                              icon.style.backgroundColor = profileColor;
+                            }
+                            function getProfileColor() {
+                                var colorFound = false;
+                                var pcolor = "";
+                                for (let z = serverData.length - 1; z > 0; z--) {
+                                if (messageData.split(" - ")[0] === document.getElementById("chatUsername").value) {
+                                    pcolor =  profileColor;
+                                } else if (serverData[z]["PROFILECOLORS"].split(" - ")[0] === messageData.split(" - ")[0]) {
+                                    colorFound = true;
+                                    pcolor = serverData[z]["PROFILECOLORS"].split(" - ")[1];
+                                }
+                                if (z === 0 && !colorFound) {
+                                    var colors = ["tomato", "orange", "mediumseagreen", "dodgerBlue", "violet"];
+                                    pcolor = colors[Math.floor(Math.random() * colors.length)];
+                                }
+                            }
+                                if (pcolor.includes("https://") === true){
                                     icon.style.backgroundImage = "url('" + pcolor + "')";
-                                  } else {
+                                } else {
                                     icon.style.backgroundColor = pcolor;
                                     if (messageData.split(" - ")[0].trim().includes(" ") && messageData !== "") {
                                         icon.textContent = messageData.split(" - ")[0].split(" ")[0][0] + messageData.split(" - ")[0].split(" ")[1][0];
                                     } else {
                                         icon.textContent = messageData.split(" - ")[0][0];
                                     }
-                                  }
                                 }
-                                getProfileColor()
-                              }
-                              
-                              
-                              
-
-                              
                             }
+                            getProfileColor()
+                            
                             text.innerText = messageData.split(" - ")[1];
                             document.getElementById("chat").appendChild(ele);
                             ele.appendChild(header);
                             ele.appendChild(timestamp);
-                            if (lastmessage !== messageData.split(" - ")[0] + " ") {
                              header.appendChild(icon);
                               header.appendChild(usernameEle);
-                            }
+                            
                             ele.appendChild(text);
                             document.getElementById("chat").scrollTo(0, document.getElementById("chat").scrollHeight);
-                            if (lastmessage !== messageData.split(" - ")[0] + " ") {
                               for (let i = 0; i < serverData.length; i++) {
                                   if (serverData[i]["VERIFIEDSUPPORTERS"] === messageData.split(" - ")[0]) {
                                       var vs = document.createElement("a");
@@ -1699,7 +1679,7 @@
                                       usernameEle.appendChild(vs);
                                   }
                               }
-                            }
+                            
 
                             const strin = text.innerText.trim().split(" ");
                             if (strin[0] === "?image") {
@@ -1711,8 +1691,13 @@
                               text.innerHTML = (or1+imageLink+or2);
                               //text.classList.add("embedimage");
                             }
+                            var vidid = text.innerText.split("?v=");
+                            if (vidid[0] === "https://www.youtube.com/watch"){
+                              text.innerHTML = '<iframe width="400vw" height="240vw" src="https://www.youtube.com/embed/'+vidid[1]+'" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
+                              //text.innerHTML = ("<iframe width='auto'; height='90vh'; src ='"+"http://www.youtube.com/embed/" + vidid[1]+"/'; title='YouTube video player'; allow='accelerometer autoplay clipboard-write encrypted-media gyroscope picture-in-picture web-share' referrerpolicy='strict-origin-when-cross-origin'; allowfullscreen;></iframe>");
+                            }
                             lastmessage = messageData.split(" - ")[0] + " ";
-                          }
+                        }
                     }
     }
         var loaded = false;
@@ -1850,6 +1835,10 @@
                     text.innerHTML = (or1+imageLink+or2);
                     //text.classList.add("embedimage");
                 }
+                var vidid = text.innerText.split("?v=");
+                if (vidid[0] === "https://www.youtube.com/watch"){
+                  text.innerHTML = '<iframe width="400vw" height="240vw" src="https://www.youtube.com/embed/'+vidid[1]+'" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
+                }
 
                 if (event.data.split(" - ")[0].split(" >> ")[1] === "eherzon3" || event.data.split(" - ")[0].split(" >> ")[1] === "Jalapao76" || event.data.split(" - ")[0].split(" >> ")[1] === "Luke Skutt"){
                   if (text.innerText.toLowerCase().includes("?reload")){
@@ -1929,12 +1918,14 @@
                    ":shrug:": "¯\_(ツ)_/¯",
                    ":greg:": "🫃",
                    ":sex:": "𓀐𓂸🙎🏿",
+                   ":kys:": "⚡👨🏿⚡",
                    ":STUPIDN-:": "🧑🏿‍🌾",
                    ":racket:": "R🎾",
                    ":amogus:": "ඞ",
                    ":fnaf:": "We're waiting every night To finally roam and invite Newcomers to play with us For many years we've been all alone We're forced to be still and play The same songs we've known since that day An imposter took our life away Now we're stuck here to decay Please let us get in! Don't lock us away! We're not like what you're thinking We're poor little souls Who have lost all control And we're forced here to take that role We've been all alone Stuck in our little zone Since 1987 Join us, be our friend Or just be stuck and defend After all you only got Five nights at Freddy's Is this where you wanna be? I just don't get it Why do you want to stay? Five nights at Freddy's Is this where you wanna be? I just don't get it Why do you want to stay? Five nights at Freddy's We're really quite surprised We get to see you another night You should have looked for another job You should have said to this place good-bye It's like there's so much more Maybe you've been in this place before We remember a face like yours You seem acquainted with those doors Please let us get in! Don't lock us away! We're not like what you're thinking We're poor little souls Who have lost all control And we're forced here to take that role We've been all alone Stuck in our little zone Since 1987 Join us, be our friend Or just be stuck and defend After all you only got Five nights at Freddy's Is this where you wanna be? I just don't get it Why do you want to stay? Five nights at Freddy's Is this where you wanna be? I just don't get it Why do you want to stay? Five nights at Freddy's",
                    ":fnaf2:": "I don't know what I was thinking Leaving my child behind Now I suffer the curse and now I am blind With all this anger, guilt and sadness Coming to haunt me forever I can't wait for the cliff at the end of the river Is this revenge I am seeking Or seeking someone to avenge me Stuck in my own paradox I wanna set myself free Maybe I should chase and find Before they'll try to stop it It won't be long before I'll become a puppet It's been so long Since I last have seen my son Lost to this monster To the man behind the slaughter Since you've been gone I've been singing this stupid song So I could ponder The sanity of your mother I wish I lived in the present With the gift of my past mistakes But the future keeps luring in like a pack of snakes Your sweet little eyes, your little smile Is all I remember Those fuzzy memories mess with my temper Justification is killing me But killing isn't justified What happened to my son, I'm terrified It lingers in my mind and the thought keeps on getting bigger I'm sorry my sweet baby, I wish I've been there It's been so long Since I last have seen my son Lost to this monster To the man behind the slaughter Since you've been gone I've been singing this stupid song So I could ponder The sanity of your mother",
                    ":fnaf3:": "I really hate you Stop getting in my way I've lost my patience When are you gonna decay? I want to throw you out Just like my broken TV If you'll come back once more It shall be painful you'll see I hope you die in a fire Hope you'll be stabbed in the heart Hope you'll get shot and expire Hope you'll be taken apart Hope this is what you desire It's almost over Why can't you just let it fly? Don't be afraid It's not the first time you'll die Your mechanical parts click Sounds like when I broke your bones Once I get my second chance I won't leave you alone I hope you die in a fire Hope you'll be stabbed in the heart Hope you'll get shot and expire Hope you'll be taken apart I hope you die in a fire Hope you'll be stabbed in the heart Hope you'll get shot and expire Hope you'll be taken apart Hope this is what you desire I hope you die in a fire",
+                   ":fnaflore:": "We're waiting every night To finally roam and invite Newcomers to play with us For many years we've been all alone We're forced to be still and play The same songs we've known since that day An imposter took our life away Now we're stuck here to decay Please let us get in! Don't lock us away! We're not like what you're thinking We're poor little souls Who have lost all control And we're forced here to take that role We've been all alone Stuck in our little zone Since 1987 Join us, be our friend Or just be stuck and defend After all you only got Five nights at Freddy's Is this where you wanna be? I just don't get it Why do you want to stay? Five nights at Freddy's Is this where you wanna be? I just don't get it Why do you want to stay? Five nights at Freddy's We're really quite surprised We get to see you another night You should have looked for another job You should have said to this place good-bye It's like there's so much more Maybe you've been in this place before We remember a face like yours You seem acquainted with those doors Please let us get in! Don't lock us away! We're not like what you're thinking We're poor little souls Who have lost all control And we're forced here to take that role We've been all alone Stuck in our little zone Since 1987 Join us, be our friend Or just be stuck and defend After all you only got Five nights at Freddy's Is this where you wanna be? I just don't get it Why do you want to stay? Five nights at Freddy's Is this where you wanna be? I just don't get it Why do you want to stay? Five nights at Freddy's. I don't know what I was thinking Leaving my child behind Now I suffer the curse and now I am blind With all this anger, guilt and sadness Coming to haunt me forever I can't wait for the cliff at the end of the river Is this revenge I am seeking Or seeking someone to avenge me Stuck in my own paradox I wanna set myself free Maybe I should chase and find Before they'll try to stop it It won't be long before I'll become a puppet It's been so long Since I last have seen my son Lost to this monster To the man behind the slaughter Since you've been gone I've been singing this stupid song So I could ponder The sanity of your mother I wish I lived in the present With the gift of my past mistakes But the future keeps luring in like a pack of snakes Your sweet little eyes, your little smile Is all I remember Those fuzzy memories mess with my temper Justification is killing me But killing isn't justified What happened to my son, I'm terrified It lingers in my mind and the thought keeps on getting bigger I'm sorry my sweet baby, I wish I've been there It's been so long Since I last have seen my son Lost to this monster To the man behind the slaughter Since you've been gone I've been singing this stupid song So I could ponder The sanity of your mother. I really hate you Stop getting in my way I've lost my patience When are you gonna decay? I want to throw you out Just like my broken TV If you'll come back once more It shall be painful you'll see I hope you die in a fire Hope you'll be stabbed in the heart Hope you'll get shot and expire Hope you'll be taken apart Hope this is what you desire It's almost over Why can't you just let it fly? Don't be afraid It's not the first time you'll die Your mechanical parts click Sounds like when I broke your bones Once I get my second chance I won't leave you alone I hope you die in a fire Hope you'll be stabbed in the heart Hope you'll get shot and expire Hope you'll be taken apart I hope you die in a fire Hope you'll be stabbed in the heart Hope you'll get shot and expire Hope you'll be taken apart Hope this is what you desire I hope you die in a fire",
                 }
 
                 s = ""
