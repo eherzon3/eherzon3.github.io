@@ -1,6 +1,6 @@
 <!-- about 80% of this was writen by Luke Skutt -->
 <meta charset="UTF-16">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito Sans">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="icon" type="image/x-icon" href="https://i.ibb.co/4twY19g/image-1.png">
@@ -65,7 +65,7 @@
 </div>
 <div id="signupPage">
   <div id="signupContainer">
-    <div class="title">Create an account</div>
+    <div class="title">Sign-up</div>
     <form id="signupForm">
       <input name="loginUsername" id="signupUsername" placeholder="Username...">
       <input name="loginPassword" id="signupPassword" placeholder="Password..." type="password">
@@ -156,7 +156,7 @@
     <div id="ChangeLogContainer" class="pageContainer">
       <div class="changeContainer">
         <div class="title">01/21/24</div>
-        <div class="desc">Fixed server loading, now when you click a server you dont crash. Its also more efficient, allowing you to load into the website faster. Added emojis, ask Eldon for the list and he will probably do it if he isnt lazy.</div>
+        <div class="desc">Changed some of the css to make it look nicer AND I ALSO ADDED VIDEOS RAHHHHHHH</div>
       </div>
     </div>
   </div>
@@ -168,24 +168,29 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background-color: #121212;
+      background-image: url(https://i.ibb.co/Hqj3ZDz/Screenshot-2024-04-16-7-52-43-AM.png);
+      background-size: 100% 100%;
+      background-color: #292929;
       opacity: 0;
       overflow: hidden;
     }
 
-    ::-webkit-scrollbar {
+    .sidebar::-webkit-scrollbar {
       display: none;
     }
 
     ::selection {
       color: #1e1e1e;
-      background-color: #bb86fc;
+      background-color: #4683d1ff;
     }
 
     #dmChat,
     #chat {
       width: 92%;
       height: 100%;
+
+      background-image: url(https://i.ibb.co/Hqj3ZDz/Screenshot-2024-04-16-7-52-43-AM.png);
+      background-size: 100% 100%;
       background-color: #292929;
       position: absolute;
       right: 0;
@@ -195,11 +200,6 @@
       z-index: 0;
     }
 
-    #dmChat.lightmode,
-    #chat.lightmode {
-      background-color: #c1c1c1
-    }
-
     #dmChat {
       display: none;
       z-index: 5;
@@ -207,7 +207,8 @@
 
     #dmChat #dmMessage,
     #chat #message {
-      width: 92%;
+      border-radius: 100px;
+      width: 90%;
       outline: none;
       border: none;
       border-top: .15vw solid #0c0c0c;
@@ -216,23 +217,20 @@
       font-size: 1.5vw;
       color: #fff;
       position: fixed;
-      bottom: 0;
-      right: 0;
+      bottom: .1%;
+      right: 1%;
       user-select: none;
       z-index: 2;
-    }
-
-    #dmChat #dmMessage.lightmode,
-    #chat #message.lightmode {
-      border-top: .15vw solid #808080;
-      background-color: #909090;
-      color: #1e1e1e;
     }
 
     #dmChat .message,
     #chat .message {
       padding: 1vw;
-      width: 100%;
+      width: max-content;
+      max-width: 100%;
+      border-radius: 0% 10% 10% 0%;
+      background-color: #292929;
+      opacity: 75%;
       box-sizing: border-box;
       transition: .5s;
       position: relative;
@@ -240,22 +238,15 @@
 
     #dmChat .lastmessage,
     #chat .lastmessage {
+     width: max-content;
+      max-width: 100%;
+      border-radius: 0% 10% 10% 0%;
+      background-color: #292929;
+      opacity: 75%;
       padding: .1vw;
-      width: 100%;
       box-sizing: border-box;
       transition: .5s;
       position: relative;
-    }
-
-    #dmChat .message:not(.lightmode):hover,
-    #chat .message:not(.lightmode):hover {
-      background-color: rgba(37, 37, 37, .5);
-    }
-
-    #dmChat .message.lightmode:hover,
-    #chat .message.lightmode:hover,
-    #chat .lastmessage.lightmode:hover {
-      background-color: rgba(247, 247, 247, 0.5);
     }
 
     #dmChat .message .header,
@@ -266,8 +257,7 @@
     }
 
     #dmChat .message #icon,
-    #chat .message #icon,
-    #chat .lastmessage #icon {
+    #chat .message #icon {
       width: 3vw;
       height: 3vw;
       display: inline-flex;
@@ -280,6 +270,11 @@
       box-shadow: 0 .15vw .5vw #1e1e1e;
       background-size: cover;
       background-position: center;
+    }
+    #chat .message #icon:hover {
+      transition: transform .2s;
+      transform: scale(1.2);
+      border-radius: 5%;
     }
 
     #dmChat .message #verified,
@@ -299,20 +294,11 @@
       user-select: none;
     }
 
-    #dmChat .message #verified.lightmode,
-    #dmChat .message #username.lightmode,
-    #chat .message #verified.lightmode,
-    #chat .message #username.lightmode,
-    #chat .lastmessage #verified.lightmode,
-    #chat .lastmessage #username.lightmode {
-      color: #1a1a1a;
-    }
-
     #dmChat .message #verified,
     #chat .message #verified,
     #chat .lastmessage #verified {
       padding-left: .25vw;
-      color: #bb86fc;
+      color: #4683d1ff;
     }
 
     #dmChat .message #messageText,
@@ -351,7 +337,8 @@
     }
 
     .sidebar {
-      background-color: #121212;
+      border-radius: 0px 0px 0px 0px;
+      background-color: #000000;
       width: 8%;
       height: 85%;
       position: absolute;
@@ -378,10 +365,16 @@
       user-select: none;
       cursor: pointer;
       position: relative;
-      background-color: #bb86fc;
+      background-color: #4683d1ff;
+    }
+
+    .sidebar .server:hover {
+      transition: transform .2s;
+      transform: scale(1.2);
     }
 
     .sidebar #settingsBTN {
+      border-radius: 0px 0px 20px 0px;
       width: 8%;
       height: 15%;
       padding: 2vw;
@@ -391,11 +384,10 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background-color: #121212;
+      background-color: #000000;
       position: fixed;
       bottom: 0;
       left: 0;
-      box-shadow: 0 -1vw 3vw #121212;
       user-select: none;
       cursor: pointer;
       transition: .5s;
@@ -415,7 +407,7 @@
 
     .sidebar #dmsBTN:hover,
     .sidebar .addServer:hover {
-      color: #bb86fc;
+      color: #4683d1ff;
     }
 
     #serverPage {
@@ -498,7 +490,7 @@
     }
 
     #serverPage #serverContainer .btnContainer .selectBTN:hover {
-      border: .25vw solid #bb86fc;
+      border: .25vw solid #4683d1ff;
       box-shadow: 0 .25vw .5vw #1e1e1e;
     }
 
@@ -561,7 +553,7 @@
     #serverPage #serverContainer #joinServerName:focus,
     #serverPage #serverContainer #createServerPage #addServerName:hover,
     #serverPage #serverContainer #createServerPage #addServerName:focus {
-      border: .15vw solid #bb86fc;
+      border: .15vw solid #4683d1ff;
       box-shadow: 0 .05vw .5vw #0c0c0c;
     }
 
@@ -592,7 +584,7 @@
       left: 12.5%;
       top: 75%;
       padding: 1vw;
-      background-color: #bb86fc;
+      background-color: #4683d1ff;
       filter: brightness(85%);
       color: #fff;
       display: flex;
@@ -642,7 +634,7 @@
     #serverPage #serverContainer #joinServerPage #serverCode:focus,
     #serverPage #serverContainer #joinServerPage #addServerName:hover,
     #serverPage #serverContainer #joinServerPage #addServerName:focus {
-      border: .15vw solid #bb86fc;
+      border: .15vw solid #4683d1ff;
       box-shadow: 0 .05vw .5vw #0c0c0c;
     }
 
@@ -673,7 +665,7 @@
       left: 12.5%;
       top: 75%;
       padding: 1vw;
-      background-color: #bb86fc;
+      background-color: #4683d1ff;
       filter: brightness(85%);
       color: #fff;
       display: flex;
@@ -706,8 +698,11 @@
     }
 
     #loginPage #loginContainer {
-      width: 50%;
-      height: 75%;
+      background-image: url(https://i.ibb.co/Hqj3ZDz/Screenshot-2024-04-16-7-52-43-AM.png);
+      background-size: 100% 100%;
+      background-color: #292929;
+      width: 100%;
+      height: 100%;
       background-color: #292929;
       box-shadow: 0 .5vw .5vw #181818;
       border-radius: 1vw;
@@ -720,17 +715,17 @@
       height: 20%;
       display: flex;
       align-items: center;
-      padding: 2vw;
+      padding: 0vw;
       box-sizing: border-box;
       color: #fff;
-      font-size: 3.5vw;
+      font-size: 8vw;
       font-weight: bold;
       user-select: none;
       justify-content: center;
     }
 
     #loginPage #loginContainer .gotoSignup {
-      color: #bb86fc;
+      color: #4683d1ff;
       font-weight: bold;
       width: 100%;
       position: absolute;
@@ -748,7 +743,7 @@
       content: "";
       position: absolute;
       bottom: 25%;
-      background-color: #bb86fc;
+      background-color: #4683d1ff;
       width: 0%;
       height: .25vw;
       transition: .5s;
@@ -764,7 +759,7 @@
       width: 65%;
       padding: 2vw;
       font-size: 2vw;
-      background-color: #1e1e1e;
+      background-color: #666666ff;
       color: #e1e1e1;
       border-radius: 1vw;
       position: absolute;
@@ -781,7 +776,7 @@
 
     #loginPage #loginContainer #loginPassword:focus,
     #loginPage #loginContainer #loginUsername:focus {
-      border: .15vw solid #bb86fc;
+      border: .15vw solid #4683d1ff;
       box-shadow: 0 0 .20vw #aa76eb;
     }
 
@@ -793,7 +788,7 @@
       top: 70%;
       text-align: center;
       box-sizing: border-box;
-      background-color: #8561b1;
+      background-color: #4683d1ff;
       font-size: 2.5vw;
       font-weight: 1000;
       padding: 1vw;
@@ -825,8 +820,11 @@
     }
 
     #signupPage #signupContainer {
-      width: 50%;
-      height: 75%;
+      background-image: url(https://i.ibb.co/Hqj3ZDz/Screenshot-2024-04-16-7-52-43-AM.png);
+      background-size: 100% 100%;
+      background-color: #292929;
+      width: 100%;
+      height: 100%;
       background-color: #292929;
       box-shadow: 0 .5vw .5vw #181818;
       border-radius: 1vw;
@@ -851,7 +849,7 @@
     }
 
     #signupPage #signupContainer .gotoSignup {
-      color: #bb86fc;
+      color: #4683d1ff;
       font-weight: bold;
       width: 100%;
       position: absolute;
@@ -869,7 +867,7 @@
       content: "";
       position: absolute;
       bottom: 25%;
-      background-color: #bb86fc;
+      background-color: #4683d1ff;
       width: 0%;
       height: .25vw;
       transition: .5s;
@@ -885,7 +883,7 @@
       width: 65%;
       padding: 2vw;
       font-size: 2vw;
-      background-color: #1e1e1e;
+      background-color: #666666ff;
       color: #e1e1e1;
       border-radius: 1vw;
       position: absolute;
@@ -906,7 +904,7 @@
 
     #signupPage #signupContainer #signupPassword:focus,
     #signupPage #signupContainer #signupUsername:focus {
-      border: .15vw solid #bb86fc;
+      border: .15vw solid #4683d1ff;
       box-shadow: 0 0 .20vw #aa76eb;
     }
 
@@ -918,7 +916,7 @@
       top: 70%;
       text-align: center;
       box-sizing: border-box;
-      background-color: #8561b1;
+      background-color: #4683d1ff;
       font-size: 2.5vw;
       font-weight: 1000;
       padding: 1vw;
@@ -1009,7 +1007,7 @@
       align-items: center;
       justify-content: center;
       bottom: 10%;
-      border: .25vw solid #bb86fc;
+      border: .25vw solid #4683d1ff;
       cursor: pointer;
     }
 
@@ -1183,7 +1181,7 @@
     .notificationIcon {
       width: 1.5vw;
       height: 1.5vw;
-      background-color: #bb86fc;
+      background-color: #4683d1ff;
       position: absolute;
       bottom: 0;
       right: 0;
@@ -1245,7 +1243,7 @@
 
     #dmsPage .dmMessage #verified {
       padding-left: .25vw;
-      color: #bb86fc;
+      color: #4683d1ff;
     }
 
     #dmsPage .dmMessage #timestamp {
@@ -1680,7 +1678,7 @@
                                   }
                               }
                             
-                            if (text.innerText.includes(">") || text.innerText.includes("<")) {
+                            if (text.innerText.includes(">") || text.innerText.includes("<") || text.innerText.includes("'") || text.innerText.includes('"')) {
                             }else{
                               const strin = text.innerText.trim().split(" ");
                               if (strin[0] === "?image") {
@@ -1827,7 +1825,7 @@
                 if (text.innerText.toLowerCase().includes("merry christmas")) {
                     text.classList.add("christmasMessage");
                 }
-                if (text.innerText.includes(">") || text.innerText.includes("<")) {
+                if (text.innerText.includes(">") || text.innerText.includes("<") || text.innerText.includes("'") || text.innerText.includes('"')) {
                 }else{
                   const strin = text.innerText.trim().split(" ");
                   if (strin[0] === "?image") {
@@ -1942,7 +1940,7 @@
                     s += emoji[words[i]]+" "
                 }
 
-                realtime.channels.get("location-ch").publish("update", document.getElementById("serverName").value + " >> " + document.getElementById("chatUsername").value + " - " + s);
+                realtime.channels.get("location-ch").publish("update", document.getElementById("serverName").value + " >> " + document.getElementById("chatUsername").value + " - " + s + "  ");
                 input.value = s
                 var scriptURL = "https://script.google.com/macros/s/AKfycbzcp7SZ5TMRHjm1Gz7i5zNcTGDuMNHrDcFxPTIvW-49zn8zaCOW1lhmUHDjVK45zAnBLw/exec";
                 fetch(scriptURL, {
@@ -2828,7 +2826,7 @@
         function toggleSwitch(ele) {
             if (!ele.classList.contains("toggled")) {
                 ele.children[0].style.backgroundColor = "#9f6edb";
-                ele.style.backgroundColor = "#bb86fc";
+                ele.style.backgroundColor = "#4683d1ff";
                 ele.children[0].style.boxShadow = "0 0 .5vw #9f6edb";
                 ele.children[0].style.left = "57%";
                 ele.classList.add("toggled");
@@ -2841,7 +2839,7 @@
             }
         }
         if (localStorage.getItem("serverColorSave") === null) {
-            localStorage.setItem("serverColorSave", "#bb86fc");
+            localStorage.setItem("serverColorSave", "#4683d1ff");
         } else {
             document.getElementsByClassName("serverColorRangeDot")[0].style.left = ((parseInt(localStorage.getItem("serverColorSave").split("(")[1].split(",")[0]) / 360 * 100) / 100 * 360) * 2;
             document.getElementsByClassName("serverColorRangeDot")[0].style.backgroundColor = localStorage.getItem("serverColorSave");
@@ -2873,7 +2871,7 @@
             }
             document.getElementsByClassName("christmasToggle")[0].classList.add("toggled");
             document.getElementsByClassName("christmasToggle")[0].children[0].style.backgroundColor = "#9f6edb";
-            document.getElementsByClassName("christmasToggle")[0].style.backgroundColor = "#bb86fc";
+            document.getElementsByClassName("christmasToggle")[0].style.backgroundColor = "#4683d1ff";
             document.getElementsByClassName("christmasToggle")[0].children[0].style.boxShadow = "0 0 .5vw #9f6edb";
             document.getElementsByClassName("christmasToggle")[0].children[0].style.left = "57%";
         }
