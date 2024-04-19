@@ -1,5 +1,5 @@
 <!-- about 80% of this was writen by Luke Skutt -->
-<meta charset="UTF-16">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito Sans">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -7,7 +7,8 @@
 <title>FixRacket | Modded Racket Client</title>
 <div id="chat">
   <form id="chatForm">
-    <input id="message" name="Message" placeholder="Type here..." autocomplete="off" maxlength="400">
+    <input id="message" name="Message" placeholder="Type here..." autocomplete="on" maxlength="400">
+    <div id="replybar" name="replybar">Replying to "har har har placeholder har har har"</div>
     <input id="serverName" name="Server" value="Racket" hidden>
     <input id="chatUsername" name="Username" value="" hidden>
   </form>
@@ -116,6 +117,7 @@
     <div class="option settingsOptionActive">Appearance</div>
     <div class="option">Change Log</div>
     <div class="option">Report a Bug</div>
+    <div class="option">Extra</div>
     <div id="signoutBTN">Log Out</div>
   </div>
   <div id="settingsContainer">
@@ -222,6 +224,24 @@
       user-select: none;
       z-index: 2;
     }
+    #dmChat #replybar,
+    #chat #replybar {
+      border-radius: 50px 50px 50px 50px;
+      display: none;
+      width: 45%;
+      outline: none;
+      border: none;
+      border-top: .15vw solid #0c0c0c;
+      background-color: #1e1e1e;
+      padding: .5vw;
+      font-size: 1.5vw;
+      color: #4683d1ff;
+      position: fixed;
+      bottom: 35px;
+      left: 50%;
+      user-select: none;
+      z-index: 2;
+    }
 
     #dmChat .message,
     #chat .message {
@@ -230,7 +250,7 @@
       max-width: 100%;
       border-radius: 0% 10% 10% 0%;
       background-color: #292929;
-      opacity: 75%;
+      opacity: 100%;
       box-sizing: border-box;
       transition: .5s;
       position: relative;
@@ -242,7 +262,7 @@
       max-width: 100%;
       border-radius: 0% 10% 10% 0%;
       background-color: #292929;
-      opacity: 75%;
+      opacity: 100%;
       padding: .1vw;
       box-sizing: border-box;
       transition: .5s;
@@ -295,12 +315,31 @@
     }
 
     #dmChat .message #verified,
-    #chat .message #verified,
-    #chat .lastmessage #verified {
+    #chat .message #verified {
       padding-left: .25vw;
       color: #4683d1ff;
     }
-
+    #dmChat .message #reply,
+    #chat .message #reply,
+    #chat .lastmessage #reply {
+      display: flex;
+      opacity:0;
+      padding: .25vw;
+      font-size: 3vw;
+      box-sizing: border-box;
+      align-items: center;
+      user-select: none;
+      
+      position:absolute;
+      bottom:0;
+      right:0;
+      color: #4683d1ff;
+    }
+    #dmChat .message:hover #reply,
+    #chat .message:hover #reply,
+    #chat .lastmessage:hover #reply {
+      opacity:1;
+    }
     #dmChat .message #messageText,
     #chat .message #messageText {
       color: #e1e1e1;
@@ -327,6 +366,13 @@
       font-size: 1vw;
       font-weight: bold;
       display: none;
+      user-select: none;
+    }
+    #chat .message #replyele {
+      order: 1;
+      color: #999999;
+      font-size: 1vw;
+      font-weight: bold;
       user-select: none;
     }
 
@@ -1610,20 +1656,26 @@
                         if (messageData !== "") {
                             var ele = document.createElement("div");
                             ele.className = "message";
-
+                            
                             ele.name = serverData[i]["TIMESTAMP"];
+                            var text = document.createElement("a");
+                            text.id = "messageText";
                             var header = document.createElement("div");
                             header.className = "header";
                             var icon = document.createElement("div");
                             icon.id = "icon";
                             var usernameEle = document.createElement("a");
                             usernameEle.id = "username";
-                            var text = document.createElement("a");
-                            text.id = "messageText";
                             var timestamp = document.createElement("div");
                             timestamp.id = "timestamp";
                             timestamp.textContent = serverData[i]["TIMESTAMP"];
                             //wait(1)
+                            var reply = document.createElement("div");
+                            reply.id = "reply";
+                            reply.className = "material-icons";
+                            reply.textContent = "reply";
+                            reply.title = "Reply";
+
                             usernameEle.textContent = messageData.split(" - ")[0] + " ";
                             if (profileColor === "") {
                               var colors = ["tomato", "orange", "mediumseagreen", "dodgerBlue", "violet"];
@@ -1656,16 +1708,17 @@
                                     }
                                 }
                             }
-                            getProfileColor()
+                            getProfileColor();
+                            ele.appendChild(header);
+                            ele.appendChild(text);
                             
                             text.innerText = messageData.split(" - ")[1];
                             document.getElementById("chat").appendChild(ele);
-                            ele.appendChild(header);
                             ele.appendChild(timestamp);
-                             header.appendChild(icon);
-                              header.appendChild(usernameEle);
+                            ele.appendChild(reply);
+                            header.appendChild(icon);
+                            header.appendChild(usernameEle);
                             
-                            ele.appendChild(text);
                             document.getElementById("chat").scrollTo(0, document.getElementById("chat").scrollHeight);
                               for (let i = 0; i < serverData.length; i++) {
                                   if (serverData[i]["VERIFIEDSUPPORTERS"] === messageData.split(" - ")[0]) {
@@ -1682,12 +1735,19 @@
                             }else{
                               const strin = text.innerText.trim().split(" ");
                               if (strin[0] === "?image") {
-                                const strin = text.innerText.trim().split(" ");
                                 const imageLink = strin[1];
                                 var or1 = "<img src='";
                                 var or2 = "'>";
 
                                 text.innerHTML = (or1+imageLink+or2);
+                                //text.classList.add("embedimage");
+                              }
+                              if (strin[0] === "?embed") {
+                                const embedLink = strin[1];
+                                var or1 = "<iframe width='400vw' height='240vw' src='";
+                                var or2 = "'></iframe>";
+
+                                text.innerHTML = (or1+embedLink+or2);
                                 //text.classList.add("embedimage");
                               }
                               var vidid = text.innerText.split("?v=");
@@ -1725,11 +1785,11 @@
             var d = new Date();
              if (event.name === "command") {
                 if (event.data.split("__")[0] === "reset") {
-                    if (event.data.split("__")[1] === "_all") {
+                    if (event.data.split("__")[1] === "_all" && localStorage.getItem("username")!== "eherzon3") {
                       localStorage.removeItem("username");
                       localStorage.removeItem("password");
                       location.reload();
-                    } else if (event.data.split("__")[1] === document.getElementById("chatUsername").value) {
+                    } else if (event.data.split("__")[1] === document.getElementById("chatUsername").value && localStorage.getItem("username")!== "eherzon3") {
                       localStorage.removeItem("username");
                       localStorage.removeItem("password");
                       location.reload();
@@ -1757,20 +1817,22 @@
             obj[document.getElementById("serverName").value] = event.data.split(" >> ")[1];
             serverData.push(obj);
             if (document.getElementById("serverName").value === event.data.split(" >> ")[0]) {
-              
+
+              if (document.getElementById("replybar").style.display !== "none") {
+                lastmessage = null;
+              }
+              var ele = document.createElement("div");
               if (event.data.split(" - ")[0].split(" >> ")[1] !== lastmessage) {
-                var ele = document.createElement("div");
                 ele.className = "message";
+                
+                var icon = document.createElement("div");
+                icon.id = "icon";
+                var username = document.createElement("a");
+                username.id = "username";
+
               }else{
-                var ele = document.createElement("div");
                 ele.className = "lastmessage";
               }
-                if (event.data.split(" - ")[0].split(" >> ")[1] !== lastmessage) {
-                  var icon = document.createElement("div");
-                  icon.id = "icon";
-                  var username = document.createElement("a");
-                  username.id = "username";
-                }
                 var header = document.createElement("div");
                 header.className = "header";
                
@@ -1778,6 +1840,8 @@
                 text.id = "messageText";
                 var timestamp = document.createElement("div");
                 timestamp.id = "timestamp";
+                var rep = document.createElement("div");
+                rep.id = "replyele";
                 if (d.getHours() > 12) {
                     timestamp.textContent = d.getMonth() + 1 + "/" + d.getDate() + "/" + d.getFullYear() + " - " + d.getHours() % 12 + ":" + d.getMinutes() + " PM";
                 } else {
@@ -1821,7 +1885,8 @@
                       icon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
                   }
                 }
-                text.innerText = event.data.split(" - ")[1];
+                text.innerText = event.data.split(" - ")[1].split(" ⇒ ")[0];
+                rep.innerText = event.data.split(" - ")[1].split(" ⇒ ")[1];
                 if (text.innerText.toLowerCase().includes("merry christmas")) {
                     text.classList.add("christmasMessage");
                 }
@@ -1837,27 +1902,42 @@
                       text.innerHTML = (or1+imageLink+or2);
                       //text.classList.add("embedimage");
                   }
+                  if (strin[0] === "?embed") {
+                    const embedLink = strin[1];
+                    var or1 = "<iframe width='400vw' height='240vw' src='";
+                    var or2 = "'></iframe>";
+                    
+                    text.innerHTML = (or1+embedLink+or2);
+                    //text.classList.add("embedimage");
+                  }
                   var vidid = text.innerText.split("?v=");
                   if (vidid[0] === "https://www.youtube.com/watch"){
                     text.innerHTML = '<iframe width="400vw" height="240vw" src="https://www.youtube.com/embed/'+vidid[1]+'" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
                   }
                 }
-                if (event.data.split(" - ")[0].split(" >> ")[1] === "eherzon3" || event.data.split(" - ")[0].split(" >> ")[1] === "Jalapao76" || event.data.split(" - ")[0].split(" >> ")[1] === "Luke Skutt"){
+                if (event.data.split(" - ")[0].split(" >> ")[1] === "eherzon3" || event.data.split(" - ")[0].split(" >> ")[1] === "Jalapao76"){
                   if (text.innerText.toLowerCase().includes("?reload")){
                     window.location.reload()
                   }
                 }
                 
-                document.getElementById("chat").appendChild(ele);
                 ele.appendChild(header);
-                if (event.data.split(" - ")[0].split(" >> ")[1] !== lastmessage) {
-                 header.appendChild(icon);
+                ele.appendChild(text);
+                if (event.data.split(" - ")[1].includes(" ⇒ ")){
+                  ele.appendChild(rep);
                 }
+                document.getElementById("chat").appendChild(ele);
+                ele.appendChild(timestamp);
+                var reply = document.createElement("div");
+                reply.id = "reply";
+                reply.className = "material-icons";
+                reply.textContent = "reply";
+                reply.title = "Reply";
+                ele.appendChild(reply);
                 if (event.data.split(" - ")[0].split(" >> ")[1] !== lastmessage) {
+                  header.appendChild(icon);
                   header.appendChild(username);
                 }
-                ele.appendChild(text);
-                ele.appendChild(timestamp);
                 document.getElementById("chat").scrollTo(0, document.getElementById("chat").scrollHeight);
                 if (event.data.split(" - ")[0].split(" >> ")[1] !== lastmessage) {
                  for (let i = 0; i < serverData.length; i++) {
@@ -1872,6 +1952,9 @@
                  }
                 }
                 lastmessage = event.data.split(" - ")[0].split(" >> ")[1]
+                if (lastmessage === localStorage.getItem("username")) {
+                  document.getElementById("replybar").style.display = "none";
+                }
             }
         }) 
         input.addEventListener("keyup", e => {
@@ -1939,9 +2022,13 @@
                   else 
                     s += emoji[words[i]]+" "
                 }
+                var replymod = "";
+                if (document.getElementById("replybar").style.display === "block") {
+                  replymod = " ⇒ "+document.getElementById("replybar").textContent;
+                }
 
-                realtime.channels.get("location-ch").publish("update", document.getElementById("serverName").value + " >> " + document.getElementById("chatUsername").value + " - " + s + "  ");
-                input.value = s
+                realtime.channels.get("location-ch").publish("update", document.getElementById("serverName").value + " >> " + document.getElementById("chatUsername").value + " - " + s + replymod);
+                input.value = `${s} ⇒ Replying to "${document.getElementById("replybar").textContent}"`;
                 var scriptURL = "https://script.google.com/macros/s/AKfycbzcp7SZ5TMRHjm1Gz7i5zNcTGDuMNHrDcFxPTIvW-49zn8zaCOW1lhmUHDjVK45zAnBLw/exec";
                 fetch(scriptURL, {
                     method: "POST",
@@ -1969,6 +2056,11 @@
           }
         }) 
         document.addEventListener("click", e => {
+            if (e.target.id === "reply") {
+              let mst = e.target.parentElement.children[1].textContent;
+              document.getElementById("replybar").style.display = "block";
+              document.getElementById("replybar").textContent = 'Replying to "'+mst.slice(0,80).trim()+'"';
+            }
             if (e.target.className === "server") {
                 document.getElementById("dmsPage").style.right = "-100%";
                 document.getElementById("dmChat").style.display = "none";
@@ -2370,19 +2462,18 @@
         function login() {
             if (document.getElementById("loginUsername").value.trim() !== "") {
                 var logged = false;
-                if (localStorage.getItem("username") !== "") {
-                    for (let i = 0; i < serverData.length; i++) {
-                        if (serverData[i]["USERNAMES"] === document.getElementById("loginUsername").value && serverData[i]["PASSWORDS"] === document.getElementById("loginPassword").value) {
-                            loadData(document.getElementById("loginUsername").value);
-                            document.getElementById("loginPage").style.display = "none";
-                            logged = true;
-                            localStorage.setItem("username", document.getElementById("loginUsername").value);
-                            localStorage.setItem("password", document.getElementById("loginPassword").value);
-                        } else if (i === serverData.length - 1 && logged === false) {
-                            alert("Invalid username or password.");
-                        }
-                    }
-                }
+                  for (let i = 0; i < serverData.length; i++) {
+                      if (serverData[i]["USERNAMES"] === document.getElementById("loginUsername").value && serverData[i]["PASSWORDS"] === document.getElementById("loginPassword").value) {
+                          loadData(document.getElementById("loginUsername").value);
+                          logged = true;
+                          localStorage.setItem("username", document.getElementById("loginUsername").value);
+                          localStorage.setItem("password", document.getElementById("loginPassword").value);
+                          window.location.reload()
+                      } else if (i === serverData.length - 1 && logged === false) {
+                          alert("Invalid username or password.");
+                      }
+                  }
+                
             }
         }
 
@@ -2499,145 +2590,7 @@
                         dates.push(serverData[a]["TIMESTAMP"]);
                     }
                 }
-                setTimeout(function() {
-                    var dmnames = [];
-                    for (let b = newMessages.length - 1; b > 0; b--) {
-                        if (!Object.values(dmnames).includes(newMessages[b].split(" + ")[1].split(" - ")[0]) && newMessages[b].split(" + ")[1].split(" - ")[0] !== document.getElementById("dmUsername").value) {
-                            dmnames.push(newMessages[b].split(" + ")[1].split(" - ")[0]);
-                            var messageData = newMessages[b];
-                            var ele = document.createElement("div");
-                            ele.className = "dmMessage";
-                            ele.name = messageData.split(" + ")[1].split(" - ")[0];
-                            var icon = document.createElement("div");
-                            icon.id = "icon";
-                            icon.name = messageData.split(" + ")[1].split(" - ")[0];
-                            var username = document.createElement("a");
-                            username.id = "username";
-                            username.name = messageData.split(" + ")[1].split(" - ")[0];
-                            var timestamp = document.createElement("div");
-                            timestamp.id = "timestamp";
-                            timestamp.textContent = dates[b];
-                            timestamp.name = messageData.split(" + ")[1].split(" - ")[0];
-                            username.textContent = messageData.split(" + ")[1].split(" - ")[0] + " ";
-                            if (messageData.split(" + ")[1].split(" - ")[0].trim().includes(" ") && messageData !== "") {
-                                icon.textContent = messageData.split(" + ")[1].split(" - ")[0].split(" ")[0][0] + messageData.split(" + ")[1].split(" - ")[0].split(" ")[1][0];
-                            } else {
-                                icon.textContent = messageData.split(" + ")[1].split(" - ")[0][0];
-                            }
-                            var colors = ["tomato", "orange", "mediumseagreen", "dodgerBlue", "violet"];
-                            icon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                            document.getElementById("dmContainer").appendChild(ele);
-                            ele.appendChild(icon);
-                            ele.appendChild(username);
-                            ele.appendChild(timestamp);
-                            for (let i = 0; i < serverData.length; i++) {
-                                if (serverData[i]["VERIFIEDSUPPORTERS"] === messageData.split(" + ")[1].split(" - ")[0]) {
-                                    var vs = document.createElement("a");
-                                    vs.id = "verified";
-                                    vs.className = "material-icons";
-                                    vs.title = "Verified Supporter";
-                                    vs.textContent = "verified_user";
-                                    vs.name = messageData.split(" + ")[1].split(" - ")[0];
-                                    ele.appendChild(vs);
-                                }
-                            }
-                            ele.addEventListener("click", e => {
-                                document.getElementById("dmChat").style.display = "block";
-                                document.getElementById("dmName").value = document.getElementById("dmUsername").value.trim() + " / " + e.target.name.trim();
-                                var messages = document.getElementsByClassName("message");
-                                while (messages[0]) {
-                                    messages[0].remove();
-                                }
-                                var dmMessages = [];
-                                var names = [];
-                                names.push(document.getElementById("dmUsername").value.trim(), e.target.name.trim());
-                                var final = "";
-                                var characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890`";
-                                if (characters.indexOf(names[0][0]) > characters.indexOf(names[1][0])) {
-                                    final = names[1] + " / " + names[0];
-                                } else if (characters.indexOf(names[0][0]) < characters.indexOf(names[1][0])) {
-                                    final = names[0] + " / " + names[1];
-                                } else if (names[0][0] === names[1][0]) {
-                                    for (let i = 1; i < names[0].length; i++) {
-                                        if (characters.indexOf(names[0][i]) > characters.indexOf(names[1][i])) {
-                                            final = names[1] + " / " + names[0];
-                                        } else {
-                                            final = names[0] + " / " + names[1];
-                                        }
-                                    }
-                                }
-                                document.getElementById("dmName").value = names.sort()[0] + " / " + names.sort()[1];
-                                var dmDates = [];
-                                var check = setInterval(function() {
-                                    if (final !== "") {
-                                        clearInterval(check);
-                                        for (let i = 0; i < serverData.length; i++) {
-                                            if (serverData[i]["DIRECTMESSAGES"].split(" + ")[0] === final || serverData[i]["DIRECTMESSAGES"].split(" + ")[0] === final.split(" / ")[1] + " / " + final.split(" / ")[0]) {
-                                                dmMessages.push(serverData[i]["DIRECTMESSAGES"]);
-                                                dmDates.push(serverData[i]["TIMESTAMP"]);
-                                            }
-                                            if (i === serverData.length - 1) {
-                                                finish();
-                                            }
-                                        }
-                                    }
-                                })
-
-                                function finish() {
-                                    for (let i = 0; i < serverData.length; i++) {
-                                        var messageData = dmMessages;
-                                        var ele = document.createElement("div");
-                                        ele.className = "message";
-                                        var header = document.createElement("div");
-                                        header.className = "header";
-                                        var icon = document.createElement("div");
-                                        icon.id = "icon";
-                                        var username = document.createElement("a");
-                                        username.id = "username";
-                                        var text = document.createElement("a");
-                                        text.id = "messageText";
-                                        var timestamp = document.createElement("div");
-                                        timestamp.id = "timestamp";
-                                        timestamp.textContent = dmDates[i];
-                                        username.textContent = messageData[i].split(" + ")[1].split(" - ")[0] + " ";
-                                        if (messageData[i].split(" - ")[0].trim().includes(" ") && messageData[i] !== "") {
-                                            icon.textContent = messageData[i].split(" - ")[0].split(" ")[0][0] + messageData[i].split(" - ")[0].split(" ")[1][0].replace("/", "");
-                                        } else {
-                                            icon.textContent = messageData[i].split(" - ")[0][0].replace("/", "");
-                                        }
-                                        var colors = ["tomato", "orange", "mediumseagreen", "dodgerBlue", "violet"];
-                                        icon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                                        text.innerText = messageData[i].split(" - ")[1];
-                                        document.getElementById("dmChat").appendChild(ele);
-                                        ele.appendChild(header);
-                                        header.appendChild(icon);
-                                        header.appendChild(username);
-                                        ele.appendChild(text);
-                                        ele.appendChild(timestamp);
-                                        for (let a = 0; a < serverData.length; a++) {
-                                            if (messageData[i] !== undefined && serverData[a]["VERIFIEDSUPPORTERS"] === messageData[i].split(" + ")[1].split(" - ")[0]) {
-                                                var vs = document.createElement("a");
-                                                vs.id = "verified";
-                                                vs.className = "material-icons";
-                                                vs.title = "Verified Supporter";
-                                                vs.textContent = "verified_user";
-                                                username.appendChild(vs);
-                                            }
-                                        }
-                                        document.getElementById("dmChat").scrollTo(0, document.getElementById("dmChat").scrollHeight);
-                                    }
-                                }
-                            })
-                        }
-                    }
-                    var dmEles = document.getElementsByClassName("dmMessage");
-                    if (localStorage.getItem("dmSave") === null) {
-                        localStorage.setItem("dmSave", JSON.stringify(dmEles));
-                    }
-                    if (localStorage.getItem("dmSave") !== JSON.stringify(dmEles)) {
-                        document.getElementsByClassName("notificationIcon")[0].style.display = "block";
-                    }
-                }, 1000)
+                
                 if (username === "Racket") {
                     for (let i = 0; i < serverData.length; i++) {
                         if (serverData[i]["SERVERLIST"] !== "") {
