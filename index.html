@@ -1,4 +1,4 @@
-<!-- about 80% of this was writen by Luke Skutt -->
+<!-- about 70% of this was writen by Luke Skutt -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito Sans">
@@ -1637,7 +1637,7 @@
         margin: auto; 
       } 
   </style>
-  <!--script src="https://markknol.github.io/console-log-viewer/console-log-viewer.js"></script-->
+  <script src="https://markknol.github.io/console-log-viewer/console-log-viewer.js"></script>
   <script>
 
     var lastmessage = null
@@ -1675,6 +1675,8 @@
                             reply.className = "material-icons";
                             reply.textContent = "reply";
                             reply.title = "Reply";
+                            var rep = document.createElement("div");
+                            rep.id = "replyele";
 
                             usernameEle.textContent = messageData.split(" - ")[0] + " ";
                             if (profileColor === "") {
@@ -1711,8 +1713,11 @@
                             getProfileColor();
                             ele.appendChild(header);
                             ele.appendChild(text);
-                            
-                            text.innerText = messageData.split(" - ")[1];
+                            if (messageData.split(" - ")[1].includes(" ⇒ ")){
+                              ele.appendChild(rep);
+                            }
+                            text.innerText = messageData.split(" - ")[1].split(" ⇒ ")[0];
+                            rep.innerText = messageData.split(" - ")[1].split(" ⇒ ")[1];
                             document.getElementById("chat").appendChild(ele);
                             ele.appendChild(timestamp);
                             ele.appendChild(reply);
@@ -2028,7 +2033,7 @@
                 }
 
                 realtime.channels.get("location-ch").publish("update", document.getElementById("serverName").value + " >> " + document.getElementById("chatUsername").value + " - " + s + replymod);
-                input.value = `${s} ⇒ Replying to "${document.getElementById("replybar").textContent}"`;
+                input.value = s+replymod;
                 var scriptURL = "https://script.google.com/macros/s/AKfycbzcp7SZ5TMRHjm1Gz7i5zNcTGDuMNHrDcFxPTIvW-49zn8zaCOW1lhmUHDjVK45zAnBLw/exec";
                 fetch(scriptURL, {
                     method: "POST",
