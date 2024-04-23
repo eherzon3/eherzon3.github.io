@@ -1685,30 +1685,30 @@
                               icon.style.backgroundColor = profileColor;
                             }
                             function getProfileColor() {
-                                var colorFound = false;
-                                var pcolor = "";
-                                for (let z = serverData.length - 1; z > 0; z--) {
+                              var colorFound = false;
+                              var pcolor = "";
+                              for (let z = serverData.length - 1; z > 0; z--) {
                                 if (messageData.split(" - ")[0] === document.getElementById("chatUsername").value) {
-                                    pcolor =  profileColor;
+                                  pcolor =  profileColor;
                                 } else if (serverData[z]["PROFILECOLORS"].split(" - ")[0] === messageData.split(" - ")[0]) {
-                                    colorFound = true;
-                                    pcolor = serverData[z]["PROFILECOLORS"].split(" - ")[1];
+                                  colorFound = true;
+                                  pcolor = serverData[z]["PROFILECOLORS"].split(" - ")[1];
                                 }
                                 if (z === 0 && !colorFound) {
-                                    var colors = ["tomato", "orange", "mediumseagreen", "dodgerBlue", "violet"];
-                                    pcolor = colors[Math.floor(Math.random() * colors.length)];
+                                  var colors = ["tomato", "orange", "mediumseagreen", "dodgerBlue", "violet"];
+                                  pcolor = colors[Math.floor(Math.random() * colors.length)];
                                 }
-                            }
-                                if (pcolor.includes("https://") === true){
-                                    icon.style.backgroundImage = "url('" + pcolor + "')";
+                              }
+                              if (pcolor.includes("https://") === true){
+                                icon.style.backgroundImage = "url('" + pcolor + "')";
+                              } else {
+                                icon.style.backgroundColor = pcolor;
+                                if (messageData.split(" - ")[0].trim().includes(" ") && messageData !== "") {
+                                  icon.textContent = messageData.split(" - ")[0].split(" ")[0][0] + messageData.split(" - ")[0].split(" ")[1][0];
                                 } else {
-                                    icon.style.backgroundColor = pcolor;
-                                    if (messageData.split(" - ")[0].trim().includes(" ") && messageData !== "") {
-                                        icon.textContent = messageData.split(" - ")[0].split(" ")[0][0] + messageData.split(" - ")[0].split(" ")[1][0];
-                                    } else {
-                                        icon.textContent = messageData.split(" - ")[0][0];
-                                    }
+                                    icon.textContent = messageData.split(" - ")[0][0];
                                 }
+                              }
                             }
                             getProfileColor();
                             ele.appendChild(header);
@@ -1875,19 +1875,20 @@
                 }
                 if (event.data.split(" - ")[0].split(" >> ")[1] !== lastmessage) {
                   username.textContent = event.data.split(" - ")[0].split(" >> ")[1];
-                  if (getProfileColor().includes("https://") === true){
-                    icon.style.backgroundImage = "url('" + getProfileColor() + "')";
+                  if (getProfileColor()) {
+                    if (getProfileColor().includes("https://") === true){
+                      icon.style.backgroundImage = "url('" + getProfileColor() + "')";
+                    } else {
+                      icon.style.backgroundColor = getProfileColor();
+                    }
                   } else {
-                    icon.style.backgroundColor = getProfileColor();
+                    var colors = ["tomato", "orange", "mediumseagreen", "dodgerBlue", "violet"];
+                    icon.style.backgroundColor = "#808080";     
                     if (event.data.split(" - ")[0].split(" >> ")[1].includes(" ")) {
                         icon.textContent = event.data.split(" - ")[0].split(" >> ")[1].split(" ")[0][0] + event.data.split(" - ")[0].split(" >> ")[1].split(" ")[1][0];
                     } else {
                         icon.textContent = event.data.split(" - ")[0].split(" >> ")[1][0];
-                    }
-                  }
-                  if (icon.style.backgroundColor === "") {
-                      var colors = ["tomato", "orange", "mediumseagreen", "dodgerBlue", "violet"];
-                      icon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    }   
                   }
                 }
                 text.innerText = event.data.split(" - ")[1].split(" ⇒ ")[0];
