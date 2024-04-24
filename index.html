@@ -1880,11 +1880,6 @@
                       icon.style.backgroundImage = "url('" + getProfileColor() + "')";
                     } else {
                       icon.style.backgroundColor = getProfileColor();
-                      if (event.data.split(" - ")[0].split(" >> ")[1].includes(" ")) {
-                        icon.textContent = event.data.split(" - ")[0].split(" >> ")[1].split(" ")[0][0] + event.data.split(" - ")[0].split(" >> ")[1].split(" ")[1][0];
-                      } else {
-                        icon.textContent = event.data.split(" - ")[0].split(" >> ")[1][0];
-                      }   
                     }
                   } else {
                     var colors = ["tomato", "orange", "mediumseagreen", "dodgerBlue", "violet"];
