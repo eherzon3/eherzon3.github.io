@@ -2484,79 +2484,88 @@
         }
 
         function updateData() {
-            var url1 = 'https://sheetdb.io/api/v1/2azyssbcwwacw';
-            var url2 = "https://sheetdb.io/api/v1/wcerjuwpbkhvo";
-            var url3 = "https://sheetdb.io/api/v1/8zatodczc4enz";
-            var url4 = "https://sheetdb.io/api/v1/g0gt4agnkmn56";
-            var url5 = "https://sheetdb.io/api/v1/613iki47ujrb8";
-            var url6 = "https://sheetdb.io/api/v1/vldnnozbyi93a";
-            var url7 = "https://sheetdb.io/api/v1/uahn0pubbiorb";
-            var url8 = "https://sheetdb.io/api/v1/g7npwb3ufk0ch";
-            var url9 = "https://sheetdb.io/api/v1/jgkigxxi4o1hv";
-            fetch(url1).then(response => {
-                return response.json();
-            }).then(data => {
-                serverData = data;
-                if (data[0] === undefined) {
-                    fetch(url2).then(response => {
-                        return response.json();
-                    }).then(data => {
-                        serverData = data;
-                        if (data[0] === undefined) {
-                            fetch(url3).then(response => {
-                                return response.json();
-                            }).then(data => {
-                                serverData = data;
-                                if (data[0] === undefined) {
-                                    fetch(url4).then(response => {
-                                        return response.json();
-                                    }).then(data => {
-                                        serverData = data;
-                                        if (data[0] === undefined) {
-                                            fetch(url5).then(response => {
-                                                return response.json();
-                                            }).then(data => {
-                                                serverData = data;
-                                                if (data[0] === undefined) {
-                                                    fetch(url6).then(response => {
-                                                        return response.json();
-                                                    }).then(data => {
-                                                        serverData = data;
-                                                        if (data[0] === undefined) {
-                                                            fetch(url7).then(response => {
-                                                                return response.json();
-                                                            }).then(data => {
-                                                                serverData = data;
-                                                                if (data[0] === undefined) {
-                                                                    fetch(url8).then(response => {
-                                                                        return response.json();
-                                                                    }).then(data => {
-                                                                        serverData = data;
-                                                                        if (data[0] === undefined) {
-                                                                            fetch(url9).then(response => {
-                                                                                return response.json();
-                                                                            }).then(data => {
-                                                                                serverData = data;
-                                                                                if (data[0] === undefined) {
-                                                                                    loadError("503", "Our servers are currently down. Check back later!");
-                                                                                }
-                                                                            })
-                                                                        }
-                                                                    })
-                                                                }
-                                                            })
-                                                        }
-                                                    })
-                                                }
-                                            })
-                                        }
-                                    })
-                                }
-                            })
-                        }
-                    })
-                }
-            })
+          var url1 = 'https://sheetdb.io/api/v1/2azyssbcwwacw';
+          var url2 = "https://sheetdb.io/api/v1/wcerjuwpbkhvo";
+          var url3 = "https://sheetdb.io/api/v1/8zatodczc4enz";
+          var url4 = "https://sheetdb.io/api/v1/g0gt4agnkmn56";
+          var url5 = "https://sheetdb.io/api/v1/613iki47ujrb8";
+          var url6 = "https://sheetdb.io/api/v1/vldnnozbyi93a";
+          var url7 = "https://sheetdb.io/api/v1/uahn0pubbiorb";
+          var url8 = "https://sheetdb.io/api/v1/g7npwb3ufk0ch";
+          var url9 = "https://sheetdb.io/api/v1/jgkigxxi4o1hv";
+          var url10 = "https://sheetdb.io/api/v1/723or30kgfk4e";
+
+          fetch(url1).then(response => {
+              return response.json();
+          }).then(data => {
+              serverData = data;
+              if (data[0] === undefined) {
+                  fetch(url2).then(response => {
+                      return response.json();
+                  }).then(data => {
+                      serverData = data;
+                      if (data[0] === undefined) {
+                          fetch(url3).then(response => {
+                              return response.json();
+                          }).then(data => {
+                              serverData = data;
+                              if (data[0] === undefined) {
+                                  fetch(url4).then(response => {
+                                      return response.json();
+                                  }).then(data => {
+                                      serverData = data;
+                                      if (data[0] === undefined) {
+                                          fetch(url5).then(response => {
+                                              return response.json();
+                                          }).then(data => {
+                                              serverData = data;
+                                              if (data[0] === undefined) {
+                                                  fetch(url6).then(response => {
+                                                      return response.json();
+                                                  }).then(data => {
+                                                      serverData = data;
+                                                      if (data[0] === undefined) {
+                                                          fetch(url7).then(response => {
+                                                              return response.json();
+                                                          }).then(data => {
+                                                              serverData = data;
+                                                              if (data[0] === undefined) {
+                                                                  fetch(url8).then(response => {
+                                                                      return response.json();
+                                                                  }).then(data => {
+                                                                      serverData = data;
+                                                                      if (data[0] === undefined) {
+                                                                          fetch(url9).then(response => {
+                                                                              return response.json();
+                                                                          }).then(data => {
+                                                                              serverData = data;
+                                                                              if (data[0] === undefined) {
+                                                                                  fetch(url10).then(response => {
+                                                                                      return response.json();
+                                                                                  }).then(data => {
+                                                                                      serverData = data;
+                                                                                      if (data[0] === undefined) {
+                                                                                          loadError("503", "Our servers are currently down. Check back later!");
+                                                                                      }
+                                                                                  })
+                                                                              }
+                                                                          })
+                                                                      }
+                                                                  })
+                                                              }
+                                                          })
+                                                      }
+                                                  })
+                                              }
+                                          })
+                                      }
+                                  })
+                              }
+                          })
+                      }
+                  })
+              }
+          })
         }
         updateData();
 
